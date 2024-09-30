@@ -1,5 +1,9 @@
 package main
 
+import (
+    "UnicBotGo/app"
+)
+
 const (
 	Name    = "UnicBotGo"
 	Author  = "D.V."
@@ -7,22 +11,5 @@ const (
 )
 
 func main() {
-
-	config := loadConfig()
-	tsQueryClient := InitNewClient(&config)
-	defer closeClient(tsQueryClient)
-	Login(tsQueryClient, &config)
-	UseVirtualServer(tsQueryClient)
-	SetNick(tsQueryClient, &config)
-	ClientMoveRequest(tsQueryClient, 32)
-
-	RegisterServerEvents(tsQueryClient)
-	RegisterTextChannelEvents(tsQueryClient)
-	RegisterTextPrivateEvents(tsQueryClient)
-
-	go serverEventsListener(tsQueryClient)
-	go updateTimeChannel(tsQueryClient)
-	go updateChillOutChannel(tsQueryClient)
-
-	select {}
+	app.Run()
 }
