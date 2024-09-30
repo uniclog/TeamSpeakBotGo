@@ -33,10 +33,12 @@ func vlcControl(url string) []byte {
 	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":1")))
 
 	client := &http.Client{}
-	resp, _ := client.Do(req)
-	defer func(Body io.ReadCloser) {
-        _ = Body.Close()
-    }(resp.Body)
+	resp, err1 := client.Do(req)
+	if err1 != nil {
+	    return nil
+	}
+	defer resp.Body.Close()
+
 	body, _ := io.ReadAll(resp.Body)
 	return body
 }
