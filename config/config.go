@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"encoding/json"
@@ -13,8 +13,8 @@ type Config struct {
 	Password string `json:"password"`
 }
 
-func loadConfig() Config {
-	file, err := os.Open("init.json")
+func Get() Config {
+	file, err := os.Open("config.json")
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
 	}
