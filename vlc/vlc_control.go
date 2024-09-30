@@ -1,4 +1,4 @@
-package main
+package vlc
 
 import (
 	"encoding/base64"
@@ -34,7 +34,9 @@ func vlcControl(url string) []byte {
 
 	client := &http.Client{}
 	resp, _ := client.Do(req)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+        _ = Body.Close()
+    }(resp.Body)
 	body, _ := io.ReadAll(resp.Body)
 	return body
 }
