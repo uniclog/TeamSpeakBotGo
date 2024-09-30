@@ -1,26 +1,27 @@
-package main
+package ts
 
 import (
-	"fmt"
+    "UnicBotGo/config"
+    "fmt"
 	"github.com/multiplay/go-ts3"
 	"log"
 	"strconv"
 )
 
-func InitNewClient(config *Config) *ts3.Client {
+func InitNewClient(config *config.Config) *ts3.Client {
 	client, err := ts3.NewClient(config.Address)
 	handleError(err, "Failed to connect to TeamSpeak server")
 	log.Println(fmt.Sprintf("Connected to %s", config.Address))
 	return client
 }
 
-func closeClient(client *ts3.Client) {
+func CloseClient(client *ts3.Client) {
 	if err := client.Close(); err != nil {
 		log.Printf("Failed to close TeamSpeak client: %v", err)
 	}
 }
 
-func Login(client *ts3.Client, config *Config) {
+func Login(client *ts3.Client, config *config.Config) {
 	handleError(client.Login(config.Username, config.Password), fmt.Sprintf("Login failed: '%s'", config.Username))
 	log.Println(fmt.Sprintf("Login %s", config.Username))
 }
@@ -30,7 +31,7 @@ func UseVirtualServer(client *ts3.Client) {
 	log.Printf("Select virtual server: 1")
 }
 
-func SetNick(client *ts3.Client, config *Config) {
+func SetNick(client *ts3.Client, config *config.Config) {
 	connectionInfo, err := client.Whoami()
 	handleError(err, "Failed to retrieve connection info")
 	if connectionInfo.ClientName != config.BotName {
@@ -96,7 +97,7 @@ func SendMessageToChannel(client *ts3.Client, channelID int, message string) {
 	_, _ = client.ExecCmd(cmd)
 }
 
-func СhangeChannelName(client *ts3.Client, channelID int, tittle string) {
+func ChangeChannelName(client *ts3.Client, channelID int, tittle string) {
 	cmd := ts3.NewCmd("channeledit").WithArgs(
 		ts3.NewArg("cid", strconv.Itoa(channelID)),
 		ts3.NewArg("channel_name", tittle),

@@ -1,4 +1,4 @@
-package main
+package ts
 
 import (
 	"github.com/multiplay/go-ts3"
